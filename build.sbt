@@ -1,4 +1,4 @@
-name := "browser-test-light"
+name := "scala-selenium-browser-tests"
 
 version := "1.0"
 
