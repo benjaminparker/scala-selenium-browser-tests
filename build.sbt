@@ -9,4 +9,6 @@ libraryDependencies ++= Seq(
 "org.fluentlenium" % "fluentlenium-core" % "0.10.6" % "test"
 )
 
+parallelExecution in Test := true
+
 
