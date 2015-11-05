@@ -1,0 +1,6 @@
+1. Get the libs
+2. Write a simple selector
+3. Use selector to hit an invitation code button
+4. Progress to entering code and hitting button and confirm new page title
+5. Create a fixture
+
