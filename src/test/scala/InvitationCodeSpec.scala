@@ -7,28 +7,31 @@ class InvitationCodeSpec extends Specification with Scope {
   val invitationCodeCheck = "http://localhost:3022/register-to-apply/invitationCodeCheck"
 
   trait InvitationCodeRedemptionPage extends Scope {
-    val browser = new Fluent(new HtmlUnitDriver()) {}
-    browser.getCookies.clear
-    browser.goTo(invitationCodeCheck)
+    val page = new Fluent(new HtmlUnitDriver()) {}
+    page.getCookies.clear
+    page.goTo(invitationCodeCheck)
+
+    def invitationCode: String => Fluent = code => page.fill("#invitationCode").`with`(code)
+    def submit = page.click("#updateContinue")
   }
 
   "Redeem Invitation Code" should {
 
     "show an error when NO code is entered" in new InvitationCodeRedemptionPage {
-      browser.click("#updateContinue")
-      browser.url must endWith("/invitationCodeError")
+      submit
+      page.url must endWith("/invitationCodeError")
     }
 
     "show an error when an INVALID code is entered" in new InvitationCodeRedemptionPage {
-      browser.fill("#invitationCode").`with`("NV4L1DC0D3")
-      browser.submit("#updateContinue")
-      browser.url must endWith("/invitationCodeError")
+      invitationCode("NV4L1DC0D3")
+      submit
+      page.url must endWith("/invitationCodeError")
     }
 
     "go to start of form when a VALID code is entered" in new InvitationCodeRedemptionPage {
-      browser.fill("#invitationCode").`with`("SMOKETOKEN")
-      browser.submit("#updateContinue")
-      browser.url must endWith("/register-to-apply/registration")
+      invitationCode("SMOKETOKEN")
+      submit
+      page.url must endWith("/register-to-apply/registration")
     }
   }
 }
